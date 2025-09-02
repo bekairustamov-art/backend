@@ -22,10 +22,14 @@ const app = express();
 // ✅ Explicit CORS config
 app.use(
   cors({
-    origin: "*", // temporary wildcard for debugging
+    origin: [
+      "https://hilookappadmin.uz",
+      "https://www.hilookappadmin.uz"
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 200 // For legacy browser support
   })
 );
 
