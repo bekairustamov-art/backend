@@ -43,7 +43,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use("/public", express.static(path.join(__dirname, "public")));
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
+app.use((req, res, next) => {
+  console.log(`Incoming ${req.method} request to ${req.path}`);
+  console.log('Origin:', req.headers.origin);
+  console.log('Headers:', req.headers);
+  next();
+});
 
 app.get("/health", async (req, res) => {
   try {
