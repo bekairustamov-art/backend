@@ -1,4 +1,4 @@
-﻿import mysql from "mysql2/promise";
+import mysql from "mysql2/promise";
 
 const {
   MYSQL_HOST = "localhost",
@@ -29,5 +29,11 @@ if (DATABASE_URL) {
     queueLimit: 0
   };
 }
+
+console.log('Attempting to connect to MySQL with config:', {
+  host: MYSQL_HOST,
+  user: MYSQL_USER,
+  database: MYSQL_DATABASE
+});
 
 export const pool = await mysql.createPool(poolConfig);
