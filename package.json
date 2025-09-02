@@ -11,7 +11,8 @@
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "node src/migrate.js up",
-    "migrate:down": "node src/migrate.js down"
+    "migrate:down": "node src/migrate.js down",
+    "cors": "npm install cors"
   },
   "author": "",
   "license": "ISC",
