@@ -22,7 +22,7 @@ const app = express();
 // ✅ Explicit CORS config
 app.use(
   cors({
-    origin: ["https://hilookappadmin.uz"], // allow only your frontend
+    origin: "*", // temporary wildcard for debugging
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
