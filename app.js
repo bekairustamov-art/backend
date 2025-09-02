@@ -54,6 +54,12 @@ app.get("/health", async (req, res) => {
   }
 });
 
+// Test endpoint
+app.options('/api/auth/admin-login', cors()) // Explicit OPTIONS handler
+app.get('/api/auth/test-cors', (req, res) => {
+  res.json({ success: true, message: 'CORS test successful' })
+})
+
 // Routers
 app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
