@@ -60,6 +60,15 @@ app.get('/api/auth/test-cors', (req, res) => {
   res.json({ success: true, message: 'CORS test successful' })
 })
 
+// Test endpoint
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    status: 'success', 
+    message: 'Backend is working',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Routers
 app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
