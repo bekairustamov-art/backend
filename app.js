@@ -24,7 +24,8 @@ app.use(
   cors({
     origin: [
       "https://hilookappadmin.uz",
-      "https://www.hilookappadmin.uz"
+      "https://www.hilookappadmin.uz",
+      "https://api.hilookappadmin.uz"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
