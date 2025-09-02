@@ -8,21 +8,29 @@ import { router as categoryRouter } from "./src/routes/categoryRoutes.js";
 import { router as bannerRouter } from "./src/routes/bannerRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
-import { router as subcategoryRouter } from './src/routes/subcategoryRoutes.js';
-import { infoRouter } from './src/routes/infoRoutes.js';
-import { router as productRouter } from './src/routes/productRoutes.js';
+import { router as subcategoryRouter } from "./src/routes/subcategoryRoutes.js";
+import { infoRouter } from "./src/routes/infoRoutes.js";
+import { router as productRouter } from "./src/routes/productRoutes.js";
 import { router as userRouter } from "./src/routes/userRoutes.js";
 import { router as userDataRouter } from "./src/routes/userDataRoutes.js";
-import {router as orderRouter} from "./src/routes/orderRoutes.js";
+import { router as orderRouter } from "./src/routes/orderRoutes.js";
 import userAuthRoutes from "./src/routes/userAuthRoutes.js";
 import { permissionRouter } from "./src/routes/permissionRoutes.js";
 
-
 const app = express();
 
-app.use(cors());
-app.use(express.json({ limit: '5mb' }));
-app.use(express.urlencoded({ extended: true, limit: '5mb' }));
+// ✅ Explicit CORS config
+app.use(
+  cors({
+    origin: ["https://hilookappadmin.uz"], // allow only your frontend
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+app.use(express.json({ limit: "5mb" }));
+app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 app.use(morgan("dev"));
 
 // Static files (for uploaded images etc.)
@@ -41,8 +49,8 @@ app.get("/health", async (req, res) => {
   }
 });
 
+// Routers
 app.use("/api/auth", authRouter);
-app.use(express.static('public'));
 app.use("/api/categories", categoryRouter);
 app.use("/api/banners", bannerRouter);
 app.use("/api/sub-categories", subcategoryRouter);
