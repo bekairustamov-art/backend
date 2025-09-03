@@ -93,7 +93,7 @@ app.use("/api/orders", orderRouter);
 app.use("/api/permission", permissionRouter);
 
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 if (!PORT) {
   console.error('[ERROR] PORT not configured');
   process.exit(1);
