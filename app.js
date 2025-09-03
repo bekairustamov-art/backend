@@ -89,7 +89,7 @@ app.use("/api/orders", orderRouter);
 app.use("/api/permission", permissionRouter);
 
 
-
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
