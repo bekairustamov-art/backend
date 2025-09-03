@@ -30,14 +30,14 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    optionsSuccessStatus: 200 // For legacy browser support
+    optionsSuccessStatus: 200
   })
 );
 
 app.use((req, res, next) => {
-  res.header('X-CORS-Debug-Origin', req.headers.origin || 'none');
-  res.header('X-CORS-Debug-Method', req.method);
-  res.header('X-CORS-Debug-Headers', req.headers['access-control-request-headers'] || 'none');
+  res.header("X-CORS-Debug-Origin", req.headers.origin || "none");
+  res.header("X-CORS-Debug-Method", req.method);
+  res.header("X-CORS-Debug-Headers", req.headers["access-control-request-headers"] || "none");
   next();
 });
 
@@ -45,16 +45,15 @@ app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 app.use(morgan("dev"));
 
-// Static files (for uploaded images etc.)
+// Static files
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use("/public", express.static(path.join(__dirname, "public")));
 
-const PORT = process.env.PORT || 8080;
 app.use((req, res, next) => {
   console.log(`Incoming ${req.method} request to ${req.path}`);
-  console.log('Origin:', req.headers.origin);
-  console.log('Headers:', req.headers);
+  console.log("Origin:", req.headers.origin);
+  console.log("Headers:", req.headers);
   next();
 });
 
@@ -67,17 +66,16 @@ app.get("/health", async (req, res) => {
   }
 });
 
-// Test endpoint
-app.options('/api/auth/admin-login', cors()) // Explicit OPTIONS handler
-app.get('/api/auth/test-cors', (req, res) => {
-  res.json({ success: true, message: 'CORS test successful' })
-})
+// Test endpoints
+app.options("/api/auth/admin-login", cors());
+app.get("/api/auth/test-cors", (req, res) => {
+  res.json({ success: true, message: "CORS test successful" });
+});
 
-// Test endpoint
-app.get('/api/test', (req, res) => {
-  res.json({ 
-    status: 'success', 
-    message: 'Backend is working',
+app.get("/api/test", (req, res) => {
+  res.json({
+    status: "success",
+    message: "Backend is working",
     timestamp: new Date().toISOString()
   });
 });
@@ -95,6 +93,21 @@ app.use("/api/user-data", userDataRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/permission", permissionRouter);
 
-app.listen(PORT, () => {
-  console.log(`API running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 8080;
+
+// ✅ Check DB connection before starting server
+const startServer = async () => {
+  try {
+    const [rows] = await pool.query("SELECT NOW() AS now");
+    console.log("✅ Database connected. Current time:", rows[0].now);
+
+    app.listen(PORT, () => {
+      console.log(`🚀 API running on http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error("❌ Failed to connect to database:", err.message);
+    process.exit(1); // Exit so you know startup failed
+  }
+};
+
+startServer();
