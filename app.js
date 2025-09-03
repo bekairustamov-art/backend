@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { router as authRouter } from "./src/routes/authRoutes.js";
-import { pool } from "./src/config/db.js";
+// import { pool } from "./src/config/db.js";
 import { router as categoryRouter } from "./src/routes/categoryRoutes.js";
 import { router as bannerRouter } from "./src/routes/bannerRoutes.js";
 import path from "path";
@@ -20,27 +20,22 @@ import { permissionRouter } from "./src/routes/permissionRoutes.js";
 const app = express();
 
 // ✅ Explicit CORS config
-app.use(
-  cors({
-    origin: [
-      "https://hilookappadmin.uz",
-      "https://www.hilookappadmin.uz",
-      "https://api.hilookappadmin.uz"
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    optionsSuccessStatus: 200
-  })
-);
-
-app.use((req, res, next) => {
-  res.header("X-CORS-Debug-Origin", req.headers.origin || "none");
-  res.header("X-CORS-Debug-Method", req.method);
-  res.header("X-CORS-Debug-Headers", req.headers["access-control-request-headers"] || "none");
-  next();
-});
-
+app.use(cors({
+  origin: [
+    process.env.FRONTEND_URL, // From .env
+    "https://hilookappadmin.uz",
+    "https://www.hilookappadmin.uz",
+    "https://api.hilookappadmin.uz"
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: [
+    "Content-Type", 
+    "Authorization",
+    "X-Requested-With"
+  ],
+  optionsSuccessStatus: 204
+}));
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 app.use(morgan("dev"));
@@ -93,21 +88,9 @@ app.use("/api/user-data", userDataRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/permission", permissionRouter);
 
-const PORT = process.env.PORT || 8080;
 
-// ✅ Check DB connection before starting server
-const startServer = async () => {
-  try {
-    const [rows] = await pool.query("SELECT NOW() AS now");
-    console.log("✅ Database connected. Current time:", rows[0].now);
 
-    app.listen(PORT, () => {
-      console.log(`🚀 API running on http://localhost:${PORT}`);
-    });
-  } catch (err) {
-    console.error("❌ Failed to connect to database:", err.message);
-    process.exit(1); // Exit so you know startup failed
-  }
-};
 
-startServer();
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
