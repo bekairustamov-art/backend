@@ -5,18 +5,18 @@ import cors from "cors";
 import morgan from "morgan";
 import { router as authRouter } from "./src/routes/authRoutes.js";
 // import { pool } from "./src/config/db.js";
-import { router as categoryRouter } from "./src/routes/categoryRoutes.js";
-import { router as bannerRouter } from "./src/routes/bannerRoutes.js";
-import path from "path";
-import { fileURLToPath } from "url";
-import { router as subcategoryRouter } from "./src/routes/subcategoryRoutes.js";
-import { infoRouter } from "./src/routes/infoRoutes.js";
-import { router as productRouter } from "./src/routes/productRoutes.js";
-import { router as userRouter } from "./src/routes/userRoutes.js";
-import { router as userDataRouter } from "./src/routes/userDataRoutes.js";
-import { router as orderRouter } from "./src/routes/orderRoutes.js";
-import userAuthRoutes from "./src/routes/userAuthRoutes.js";
-import { permissionRouter } from "./src/routes/permissionRoutes.js";
+// import { router as categoryRouter } from "./src/routes/categoryRoutes.js";
+// import { router as bannerRouter } from "./src/routes/bannerRoutes.js";
+// import path from "path";
+// import { fileURLToPath } from "url";
+// import { router as subcategoryRouter } from "./src/routes/subcategoryRoutes.js";
+// import { infoRouter } from "./src/routes/infoRoutes.js";
+// import { router as productRouter } from "./src/routes/productRoutes.js";
+// import { router as userRouter } from "./src/routes/userRoutes.js";
+// import { router as userDataRouter } from "./src/routes/userDataRoutes.js";
+// import { router as orderRouter } from "./src/routes/orderRoutes.js";
+// import userAuthRoutes from "./src/routes/userAuthRoutes.js";
+// import { permissionRouter } from "./src/routes/permissionRoutes.js";
 
 const app = express();
 
@@ -53,14 +53,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/health", async (req, res) => {
-  try {
-    await pool.query("SELECT 1");
-    res.json({ status: "ok", db: "up" });
-  } catch (err) {
-    res.json({ status: "ok", db: "down", error: err.message });
-  }
-});
+// app.get("/health", async (req, res) => {
+//   try {
+//     await pool.query("SELECT 1");
+//     res.json({ status: "ok", db: "up" });
+//   } catch (err) {
+//     res.json({ status: "ok", db: "down", error: err.message });
+//   }
+// });
 
 // Test endpoints
 app.options("/api/auth/admin-login", cors());
@@ -77,17 +77,17 @@ app.get("/", (req, res) => {
 });
 
 // Routers
-app.use("/api/auth", authRouter);
-app.use("/api/categories", categoryRouter);
-app.use("/api/banners", bannerRouter);
-app.use("/api/sub-categories", subcategoryRouter);
-app.use("/api/info", infoRouter);
-app.use("/api/products", productRouter);
-app.use("/api/user-auth", userAuthRoutes);
-app.use("/api/users", userRouter);
-app.use("/api/user-data", userDataRouter);
-app.use("/api/orders", orderRouter);
-app.use("/api/permission", permissionRouter);
+// app.use("/api/auth", authRouter);
+// app.use("/api/categories", categoryRouter);
+// app.use("/api/banners", bannerRouter);
+// app.use("/api/sub-categories", subcategoryRouter);
+// app.use("/api/info", infoRouter);
+// app.use("/api/products", productRouter);
+// app.use("/api/user-auth", userAuthRoutes);
+// app.use("/api/users", userRouter);
+// app.use("/api/user-data", userDataRouter);
+// app.use("/api/orders", orderRouter);
+// app.use("/api/permission", permissionRouter);
 
 
 const PORT = process.env.PORT || 3000;
