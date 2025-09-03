@@ -2,7 +2,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import morgan from "morgan";
+// import morgan from "morgan";
 import { router as authRouter } from "./src/routes/authRoutes.js";
 // import { pool } from "./src/config/db.js";
 // import { router as categoryRouter } from "./src/routes/categoryRoutes.js";
@@ -39,7 +39,7 @@ app.use(cors({
 }));
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 
 // Static files
 const __filename = fileURLToPath(import.meta.url);
