@@ -63,10 +63,10 @@ app.use((req, res, next) => {
 // });
 
 // Test endpoints
-app.options("/api/auth/admin-login", cors());
-app.get("/api/auth/test-cors", (req, res) => {
-  res.json({ success: true, message: "CORS test successful" });
-});
+// app.options("/api/auth/admin-login", cors());
+// app.get("/api/auth/test-cors", (req, res) => {
+//   res.json({ success: true, message: "CORS test successful" });
+// });
 
 app.get("/", (req, res) => {
   res.json({
