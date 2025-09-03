@@ -42,9 +42,9 @@ app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 // app.use(morgan("dev"));
 
 // Static files
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use("/public", express.static(path.join(__dirname, "public")));
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
   console.log(`Incoming ${req.method} request to ${req.path}`);
