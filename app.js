@@ -1,3 +1,7 @@
+console.log('[INIT] Server starting...');
+console.log('[ENV] Node:', process.version);
+console.log('[ENV] PORT:', process.env.PORT || 'Not set');
+
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -90,7 +94,18 @@ app.use("/api/permission", permissionRouter);
 
 
 const PORT = process.env.PORT;
+if (!PORT) {
+  console.error('[ERROR] PORT not configured');
+  process.exit(1);
+}
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`[OK] Running on port ${PORT}`);
+  console.log('[ROUTES] Available:');
+  app._router.stack.forEach(layer => {
+    if (layer.route) {
+      const methods = Object.keys(layer.route.methods).join(',').toUpperCase();
+      console.log(`  ${methods} ${layer.route.path}`);
+    }
+  });
 });
