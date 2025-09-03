@@ -1,7 +1,7 @@
 
 import "dotenv/config";
 import express from "express";
-import cors from "cors";
+// import cors from "cors";
 // import morgan from "morgan";
 import { router as authRouter } from "./src/routes/authRoutes.js";
 // import { pool } from "./src/config/db.js";
@@ -21,24 +21,24 @@ import { router as authRouter } from "./src/routes/authRoutes.js";
 const app = express();
 
 // ✅ Explicit CORS config
-app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL, // From .env
-    "https://hilookappadmin.uz",
-    "https://www.hilookappadmin.uz",
-    "https://api.hilookappadmin.uz"
-  ],
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    "Content-Type", 
-    "Authorization",
-    "X-Requested-With"
-  ],
-  optionsSuccessStatus: 204
-}));
-app.use(express.json({ limit: "5mb" }));
-app.use(express.urlencoded({ extended: true, limit: "5mb" }));
+// app.use(cors({
+//   origin: [
+//     process.env.FRONTEND_URL, // From .env
+//     "https://hilookappadmin.uz",
+//     "https://www.hilookappadmin.uz",
+//     "https://api.hilookappadmin.uz"
+//   ],
+//   credentials: true,
+//   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+//   allowedHeaders: [
+//     "Content-Type", 
+//     "Authorization",
+//     "X-Requested-With"
+//   ],
+//   optionsSuccessStatus: 204
+// }));
+// app.use(express.json({ limit: "5mb" }));
+// app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 // app.use(morgan("dev"));
 
 // Static files
