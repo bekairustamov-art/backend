@@ -2,7 +2,7 @@
   "name": "ecommers_server",
   "version": "1.0.0",
   "description": "This is the backend of e-commerse app",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "engines": {
     "node": ">=16.0.0"
