@@ -217,6 +217,7 @@ export const getInfo = async (req, res) => {
 
 export const getPopularProducts = async (req, res) => {
   try {
+    const pool = await getPool();
     // Log request headers and user for debugging
     console.log('=== Popular Products Request Debug ===');
     console.log('Request Headers:', JSON.stringify(req.headers, null, 2));
@@ -264,7 +265,7 @@ export const getPopularProducts = async (req, res) => {
         LIMIT ? OFFSET ?
       `;
     }
-
+    
     // Get popular products from database with pagination
     const [products] = await pool.query(query, [actualLimit, offset]);
 
