@@ -1,4 +1,4 @@
-import { pool } from "../config/db.js";
+import { getPool } from "../config/db.js";
 import { getInfo as getInfoData } from "../models/infoModel.js";
 
 // Helper function to remove timestamp fields from arrays of objects
@@ -43,6 +43,7 @@ export const getUserData = async (req, res) => {
 
 export const getCategories = async (req, res) => {
   try {
+    const pool = await getPool();
     // Get categories from database
     const [categories] = await pool.query(
       "SELECT id, image_path, category_name, updated_at FROM categories ORDER BY id DESC"
@@ -72,6 +73,7 @@ export const getCategories = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
+    const pool = await getPool();
     // Determine user type
     const isAuthenticated = req.user !== null;
     const isWholesaler = isAuthenticated && (req.user.is_wholesaler === true || req.user.is_wholesaler === 1);
@@ -157,6 +159,7 @@ export const getProducts = async (req, res) => {
 
 export const getBanners = async (req, res) => {
   try {
+    const pool = await getPool();
     // Get banners from database
     const [banners] = await pool.query(
       "SELECT id, banner_image, priority, updated_at FROM banners ORDER BY priority ASC"
@@ -305,6 +308,7 @@ export const getPopularProducts = async (req, res) => {
 
 export const getProductDetail = async (req, res) => {
   try {
+    const pool = await getPool();
     const { productid } = req.params;
 
     // Validate product ID
@@ -515,6 +519,7 @@ export const getProductsByCategory = async (req, res) => {
 
 export const getProductsBySubcategory = async (req, res) => {
   try {
+    const pool = await getPool();
     const { subcategory_id } = req.params;
 
     // Validate subcategory_id
@@ -613,6 +618,7 @@ export const getProductsBySubcategory = async (req, res) => {
 
 export const getSearchProducts = async (req, res) => {
   try {
+    const pool = await getPool();
     const q = (req.query.q || '').trim();
 
     // Minimum 2 characters to search

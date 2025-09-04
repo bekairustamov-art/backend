@@ -1,4 +1,4 @@
-import { pool } from "../config/db.js";
+import { getPool } from "../config/db.js";
 import { v4 as uuidv4 } from "uuid";
 
 export class OrderModel {
@@ -10,7 +10,7 @@ export class OrderModel {
 
     // Generate a unique batch_id for this order batch
     const batchId = uuidv4();
-
+    const pool = await getPool();
     const connection = await pool.getConnection();
     try {
       await connection.beginTransaction();
@@ -59,6 +59,7 @@ export class OrderModel {
   static async getAllOrders(filters = {}) {
     const { user_id, start_date, end_date, wholesaler_only, page = 1, limit = 10 } = filters;
     const offset = (page - 1) * limit;
+    const pool = await getPool();
 
     let whereConditions = [];
     let params = [];
@@ -137,7 +138,8 @@ export class OrderModel {
     if (!userId) {
       throw new Error("User ID is required");
     }
-
+    
+    const pool = await getPool();
     const query = `
       SELECT
         o.batch_id,

@@ -1,9 +1,10 @@
-import { pool } from "../config/db.js";
+import { getPool } from "../config/db.js";
 import bcrypt from "bcrypt";
 
 export class UserAuthModel {
   // Create a new user
   static async createUser(userData) {
+    const pool = await getPool();
     const { name, phone, password, is_wholesaler = false } = userData;
 
     // Hash the password
@@ -28,6 +29,7 @@ export class UserAuthModel {
 
   // Find user by phone number
   static async findUserByPhone(phone) {
+    const pool = await getPool();
     const query = `
       SELECT id, name, phone, password, is_wholesaler, created_at, updated_at
       FROM users
@@ -40,6 +42,7 @@ export class UserAuthModel {
 
   // Find user by ID
   static async findUserById(id) {
+    const pool = await getPool();
     const query = `
       SELECT id, name, phone, is_wholesaler, created_at, updated_at
       FROM users
@@ -52,6 +55,7 @@ export class UserAuthModel {
 
   // Update user password
   static async updatePassword(userId, newPassword) {
+    const pool = await getPool();
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 

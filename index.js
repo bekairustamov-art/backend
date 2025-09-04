@@ -12,6 +12,8 @@ import { infoRouter } from "./src/routes/infoRoutes.js";
 import { router as userRouter } from "./src/routes/userRoutes.js";
 import { router as subcategoryRouter } from "./src/routes/subcategoryRoutes.js";
 import { router as productRouter } from "./src/routes/productRoutes.js";
+import { router as orderRouter } from "./src/routes/orderRoutes.js";
+
 
 const app = express();
 
@@ -57,6 +59,7 @@ app.use(['/api/info', '/api/info/'], infoRouter);
 app.use(['/api/users', '/api/users/'], userRouter);
 app.use("/api/sub-categories", subcategoryRouter);
 app.use("/api/products", productRouter);
+app.use("/api/orders", orderRouter);
 
 const PORT = process.env.PORT || 3000;
 
