@@ -26,7 +26,7 @@ const app = express();
 // ✅ Explicit CORS config
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL, // From .env
+    
     "https://hilookappadmin.uz",
     "https://www.hilookappadmin.uz",
     "https://api.hilookappadmin.uz"
