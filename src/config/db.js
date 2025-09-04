@@ -1,15 +1,26 @@
 import mysql from "mysql2/promise";
 
 const poolConfig = {
-  host: "localhost",
-  port: 3306,
-  database: "host7216_ecommerce",
-  user: "host7216_ecommerse",
-  password: "---bekzod---A1",
-  ssl: false,
+  host: process.env.MYSQL_HOST,
+  port: process.env.MYSQL_PORT,
+  database: process.env.MYSQL_DATABASE,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  ssl: process.env.MYSQL_SSL === 'true',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
 };
 
 export const pool = await mysql.createPool(poolConfig);
+
+// Test the connection
+pool.getConnection()
+  .then(conn => {
+    console.log('Database connection successful!');
+    conn.release();
+  })
+  .catch(err => {
+    console.error('Database connection failed:', err);
+    process.exit(1);
+  });

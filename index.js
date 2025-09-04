@@ -3,8 +3,8 @@ import express from 'express';
 import cors from "cors";
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { pool } from "./src/config/db.js";
 import testRouter from './src/routes/testRoutes.js'; 
-import { router as authRouter } from './src/routes/authRoutes.js';
 
 const app = express();
 
@@ -34,12 +34,19 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 // Routers
 
 app.use(['/api/test', '/api/test/'], testRouter);
-app.use(['/api/auth', '/api/auth/'], authRouter);
+app.get(['/health', '/health/'], async (req, res) => {
+  try {
+    await pool.query("SELECT 1");
+    res.json({ status: "ok", db: "up" });
+  } catch (err) {
+    res.json({ status: "ok", db: "down", error: err.message });
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Hello from backend!' });
+  res.json({ message: `${PORT} Hello from backend!` });
 });
 
 app.listen(PORT, () => {

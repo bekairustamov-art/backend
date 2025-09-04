@@ -13,7 +13,6 @@ const {
 } = process.env;
 
 export async function login(req, res) {
-  return res.status(400).json({ message: "Access denied" });
   const { username, password } = req.body || {};
   if (!username || !password) {
     return res.status(400).json({ message: "username and password are required" });
