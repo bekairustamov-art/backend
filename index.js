@@ -3,7 +3,7 @@ import express from 'express';
 import cors from "cors";
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { pool } from "./src/config/db.js";
+import { getPool } from "./src/config/db.js";
 import testRouter from './src/routes/testRoutes.js'; 
 
 const app = express();
@@ -36,6 +36,7 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(['/api/test', '/api/test/'], testRouter);
 app.get(['/health', '/health/'], async (req, res) => {
   try {
+    const pool = await getPool();
     await pool.query("SELECT 1");
     res.json({ status: "ok", db: "up" });
   } catch (err) {

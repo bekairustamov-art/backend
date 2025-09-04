@@ -12,15 +12,21 @@ const poolConfig = {
   queueLimit: 0
 };
 
-export const pool = await mysql.createPool(poolConfig);
+let pool;
 
-// Test the connection
-pool.getConnection()
-  .then(conn => {
-    console.log('Database connection successful!');
-    conn.release();
-  })
-  .catch(err => {
-    console.error('Database connection failed:', err);
-    process.exit(1);
-  });
+export async function getPool() {
+  if (!pool) {
+    pool = await mysql.createPool(poolConfig);
+    
+    // Test the connection
+    try {
+      const conn = await pool.getConnection();
+      console.log('Database connection successful!');
+      conn.release();
+    } catch (err) {
+      console.error('Database connection failed:', err);
+      process.exit(1);
+    }
+  }
+  return pool;
+}
