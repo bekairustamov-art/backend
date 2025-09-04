@@ -13,7 +13,9 @@ import { router as userRouter } from "./src/routes/userRoutes.js";
 import { router as subcategoryRouter } from "./src/routes/subcategoryRoutes.js";
 import { router as productRouter } from "./src/routes/productRoutes.js";
 import { router as orderRouter } from "./src/routes/orderRoutes.js";
-
+import userAuthRoutes from "./src/routes/userAuthRoutes.js";
+import { permissionRouter } from "./src/routes/permissionRoutes.js";
+import { router as userDataRouter } from "./src/routes/userDataRoutes.js";
 
 const app = express();
 
@@ -57,9 +59,12 @@ app.use(['/api/banners','/api/banners/'], bannerRouter);
 app.use(['/api/categories', '/api/categories/'], categoryRouter);
 app.use(['/api/info', '/api/info/'], infoRouter);
 app.use(['/api/users', '/api/users/'], userRouter);
-app.use("/api/sub-categories", subcategoryRouter);
-app.use("/api/products", productRouter);
-app.use("/api/orders", orderRouter);
+app.use(['/api/sub-categories', '/api/sub-categories/'], subcategoryRouter);
+app.use(['/api/products', '/api/products/'], productRouter);
+app.use(['/api/orders', '/api/orders/'], orderRouter);
+app.use(['/api/permission', '/api/permission/'], permissionRouter);
+app.use(['/api/user-auth', '/api/user-auth/'], userAuthRoutes);
+app.use(['/api/user-data', '/api/user-data/'], userDataRouter);
 
 const PORT = process.env.PORT || 3000;
 
