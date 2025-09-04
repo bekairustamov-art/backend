@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { getPool } from "./src/config/db.js";
 import testRouter from './src/routes/testRoutes.js'; 
+import { router as authRouter } from "./src/routes/authRoutes.js";
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.get(['/health', '/health/'], async (req, res) => {
     res.json({ status: "ok", db: "down", error: err.message });
   }
 });
+app.use(['/api/auth', '/api/auth/'], authRouter);
 
 const PORT = process.env.PORT || 3000;
 
