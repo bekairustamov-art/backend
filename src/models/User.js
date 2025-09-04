@@ -1,12 +1,14 @@
-import { pool } from '../config/db.js';
+import { getPool } from '../config/db.js';
 
 const User = {
   getAll: async () => {
+    const pool = await getPool();
     const [rows] = await pool.query('SELECT * FROM users');
     return rows;
   },
 
   create: async (user) => {
+    const pool = await getPool();
     const { name, phone, password, is_wholesaler } = user;
     const [result] = await pool.query(
       'INSERT INTO users (name, phone, password, is_wholesaler) VALUES (?, ?, ?, ?)',
@@ -16,6 +18,7 @@ const User = {
   },
 
   update: async (id, updates) => {
+    const pool = await getPool();
     const keys = Object.keys(updates);
     const values = Object.values(updates);
     const setClause = keys.map(key => `${key} = ?`).join(', ');
@@ -30,21 +33,25 @@ const User = {
   },
 
   delete: async (id) => {
+    const pool = await getPool();
     await pool.query('DELETE FROM users WHERE id = ?', [id]);
     return true;
   },
 
   getById: async (id) => {
+    const pool = await getPool();
     const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [id]);
     return rows[0];
   },
 
   findByPhone: async (phone) => {
+    const pool = await getPool();
     const [rows] = await pool.query('SELECT * FROM users WHERE phone = ?', [phone]);
     return rows[0];
   },
 
   searchUsers: async (searchTerm = '', limit = 10, offset = 0, filterWholesaler = false) => {
+    const pool = await getPool();
     let query = 'SELECT * FROM users WHERE 1=1';
     const params = [];
 
@@ -66,6 +73,7 @@ const User = {
   },
 
   getUsersCount: async (searchTerm = '', filterWholesaler = false) => {
+    const pool = await getPool();
     let query = 'SELECT COUNT(*) as count FROM users WHERE 1=1';
     const params = [];
 

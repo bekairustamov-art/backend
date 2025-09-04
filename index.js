@@ -9,6 +9,7 @@ import { router as authRouter } from "./src/routes/authRoutes.js";
 import { router as bannerRouter } from "./src/routes/bannerRoutes.js";
 import { router as categoryRouter } from "./src/routes/categoryRoutes.js";
 import { infoRouter } from "./src/routes/infoRoutes.js";
+import { router as userRouter } from "./src/routes/userRoutes.js";
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use(['/api/auth', '/api/auth/'], authRouter);
 app.use(['/api/banners','/api/banners/'], bannerRouter);
 app.use(['/api/categories', '/api/categories/'], categoryRouter);
 app.use(['/api/info', '/api/info/'], infoRouter);
+app.use(['/api/users', '/api/users/'], userRouter);
 
 const PORT = process.env.PORT || 3000;
 
