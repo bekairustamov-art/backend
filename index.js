@@ -10,6 +10,8 @@ import { router as bannerRouter } from "./src/routes/bannerRoutes.js";
 import { router as categoryRouter } from "./src/routes/categoryRoutes.js";
 import { infoRouter } from "./src/routes/infoRoutes.js";
 import { router as userRouter } from "./src/routes/userRoutes.js";
+import { router as subcategoryRouter } from "./src/routes/subcategoryRoutes.js";
+import { router as productRouter } from "./src/routes/productRoutes.js";
 
 const app = express();
 
@@ -53,6 +55,8 @@ app.use(['/api/banners','/api/banners/'], bannerRouter);
 app.use(['/api/categories', '/api/categories/'], categoryRouter);
 app.use(['/api/info', '/api/info/'], infoRouter);
 app.use(['/api/users', '/api/users/'], userRouter);
+app.use("/api/sub-categories", subcategoryRouter);
+app.use("/api/products", productRouter);
 
 const PORT = process.env.PORT || 3000;
 
