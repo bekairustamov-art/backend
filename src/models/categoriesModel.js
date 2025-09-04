@@ -1,6 +1,7 @@
-import { pool } from "../config/db.js";
+import { getPool } from "../config/db.js";
 
 export async function listCategoriesOrdered() {
+  const pool = await getPool();
   const [rows] = await pool.query(
     "SELECT id, image_path, category_name FROM categories ORDER BY id DESC"
   );
@@ -8,6 +9,7 @@ export async function listCategoriesOrdered() {
 }
 
 export async function createCategory(imagePath, categoryName) {
+  const pool = await getPool();
   const [result] = await pool.query(
     "INSERT INTO categories (image_path, category_name) VALUES (?, ?)",
     [imagePath, categoryName]
@@ -16,6 +18,7 @@ export async function createCategory(imagePath, categoryName) {
 }
 
 export async function getCategoryById(id) {
+  const pool = await getPool();
   const [rows] = await pool.query(
     "SELECT id, image_path, category_name FROM categories WHERE id = ?",
     [id]
@@ -24,6 +27,7 @@ export async function getCategoryById(id) {
 }
 
 export async function updateCategoryFields(id, fields) {
+  const pool = await getPool();
   const keys = Object.keys(fields);
   if (keys.length === 0) return;
   const setSql = keys.map((k) => `${k} = ?`).join(", ");
@@ -32,11 +36,13 @@ export async function updateCategoryFields(id, fields) {
 }
 
 export async function deleteCategoryById(id) {
+  const pool = await getPool();
   const [result] = await pool.query("DELETE FROM categories WHERE id = ?", [id]);
   return result.affectedRows;
 }
 
 export async function findCategoryById(id) {
+  const pool = await getPool();
   const [rows] = await pool.query("SELECT id FROM categories WHERE id = ?", [id]);
   return rows[0] ?? null;
 }

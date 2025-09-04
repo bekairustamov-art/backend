@@ -7,7 +7,7 @@ import { getPool } from "./src/config/db.js";
 import testRouter from './src/routes/testRoutes.js'; 
 import { router as authRouter } from "./src/routes/authRoutes.js";
 import { router as bannerRouter } from "./src/routes/bannerRoutes.js";
-
+import { router as categoryRouter } from "./src/routes/categoryRoutes.js";
 
 const app = express();
 
@@ -48,6 +48,8 @@ app.get(['/health', '/health/'], async (req, res) => {
 });
 app.use(['/api/auth', '/api/auth/'], authRouter);
 app.use(['/api/banners','/api/banners/'], bannerRouter);
+app.use(['/api/categories', '/api/categories/'], categoryRouter);
+
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
