@@ -1,6 +1,7 @@
-import { pool } from "../config/db.js";
+import { getPool } from "../config/db.js";
 
 export async function listAllWithCategory() {
+  const pool = await getPool();
   const [rows] = await pool.query(
     `SELECT s.id, s.name, s.category_id, c.category_name
      FROM subcategories s
@@ -11,6 +12,7 @@ export async function listAllWithCategory() {
 }
 
 export async function listByCategoryId(categoryId) {
+  const pool = await getPool();
   const [rows] = await pool.query(
     `SELECT s.id, s.name, s.category_id, c.category_name
      FROM subcategories s
@@ -23,6 +25,7 @@ export async function listByCategoryId(categoryId) {
 }
 
 export async function createSubcategory(categoryId, name) {
+  const pool = await getPool();
   const [result] = await pool.query(
     "INSERT INTO subcategories (category_id, name) VALUES (?, ?)",
     [categoryId, name]
@@ -31,11 +34,13 @@ export async function createSubcategory(categoryId, name) {
 }
 
 export async function findSubcategoryById(id) {
+  const pool = await getPool();
   const [rows] = await pool.query("SELECT id FROM subcategories WHERE id = ?", [id]);
   return rows[0] ?? null;
 }
 
 export async function updateSubcategoryFields(id, fields) {
+  const pool = await getPool();
   const keys = Object.keys(fields);
   if (keys.length === 0) return;
   const setSql = keys.map((k) => `${k} = ?`).join(", ");
@@ -44,11 +49,13 @@ export async function updateSubcategoryFields(id, fields) {
 }
 
 export async function deleteSubcategoryById(id) {
+  const pool = await getPool();
   const [result] = await pool.query("DELETE FROM subcategories WHERE id = ?", [id]);
   return result.affectedRows;
 }
 
 export async function listSubcategoriesWithFilter({ categoryId, name, page = 1, limit = 10 }) {
+  const pool = await getPool();
   let sql = `SELECT s.id, s.name, s.category_id, c.category_name
      FROM subcategories s
      JOIN categories c ON c.id = s.category_id

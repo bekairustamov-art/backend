@@ -1,6 +1,7 @@
-import { pool } from "../config/db.js";
+import { getPool } from "../config/db.js";
 
 export async function listProducts() {
+  const pool = await getPool();
   const [rows] = await pool.query(`
     SELECT
       p.*,
@@ -15,6 +16,7 @@ export async function listProducts() {
 }
 
 export async function createProduct(productData) {
+  const pool = await getPool();
   const {
     name,
     description,
@@ -43,6 +45,7 @@ export async function createProduct(productData) {
 }
 
 export async function getProductById(id) {
+  const pool = await getPool();
   const [rows] = await pool.query(`
     SELECT
       p.*,
@@ -58,6 +61,7 @@ export async function getProductById(id) {
 }
 
 export async function updateProductFields(id, fields) {
+  const pool = await getPool();
   const keys = Object.keys(fields);
   if (keys.length === 0) return;
   const setSql = keys.map((k) => `${k} = ?`).join(", ");
@@ -66,16 +70,19 @@ export async function updateProductFields(id, fields) {
 }
 
 export async function deleteProductById(id) {
+  const pool = await getPool();
   const [result] = await pool.query("DELETE FROM products WHERE id = ?", [id]);
   return result.affectedRows;
 }
 
 export async function findProductById(id) {
+  const pool = await getPool();
   const [rows] = await pool.query("SELECT id FROM products WHERE id = ?", [id]);
   return rows[0] ?? null;
 }
 
 export async function listProductsWithFilter({ categoryId, subCategoryId, name, isPopular, page = 1, limit = 10 }) {
+  const pool = await getPool();
   let sql = `SELECT
     p.*,
     c.category_name,
