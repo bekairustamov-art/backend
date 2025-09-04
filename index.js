@@ -8,6 +8,7 @@ import testRouter from './src/routes/testRoutes.js';
 import { router as authRouter } from "./src/routes/authRoutes.js";
 import { router as bannerRouter } from "./src/routes/bannerRoutes.js";
 import { router as categoryRouter } from "./src/routes/categoryRoutes.js";
+import { infoRouter } from "./src/routes/infoRoutes.js";
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.get(['/health', '/health/'], async (req, res) => {
 app.use(['/api/auth', '/api/auth/'], authRouter);
 app.use(['/api/banners','/api/banners/'], bannerRouter);
 app.use(['/api/categories', '/api/categories/'], categoryRouter);
+app.use(['/api/info', '/api/info/'], infoRouter);
 
 const PORT = process.env.PORT || 3000;
 
