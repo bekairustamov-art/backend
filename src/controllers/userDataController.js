@@ -420,6 +420,7 @@ export const getSubcategories = async (req, res) => {
 
 export const getProductsByCategory = async (req, res) => {
   try {
+    const pool = await getPool();
     const { category_id } = req.params;
 
     // Validate category_id
