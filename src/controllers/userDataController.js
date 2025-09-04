@@ -399,11 +399,10 @@ export const getProductDetail = async (req, res) => {
 
 export const getSubcategories = async (req, res) => {
   try {
-    // Get subcategories from database
+    const pool = await getPool();
     const [subcategories] = await pool.query(
       "SELECT id, category_id, name FROM subcategories ORDER BY id ASC"
     );
-
     res.json({
       success: true,
       data: subcategories,
