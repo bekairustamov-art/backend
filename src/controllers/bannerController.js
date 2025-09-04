@@ -1,4 +1,4 @@
-import { pool } from "../config/db.js";
+import { getPool } from "../config/db.js";
 import {
   listBannersOrdered,
   getMaxPriority,
@@ -29,17 +29,22 @@ async function ensureUploadsDir() {
 }
 
 export async function listBanners(_req, res) {
+  const pool = await getPool();
+  const conn = await pool.getConnection();
   try {
     await ensureUploadsDir();
-    const rows = await listBannersOrdered();
+    const rows = await listBannersOrdered(conn);
     res.json({ items: rows });
   } catch (err) {
     console.error("listBanners error:", err);
     res.status(500).json({ message: "Failed to load banners", error: err.message });
+  } finally {
+    conn.release();
   }
 }
 
 export async function createBanner(req, res) {
+  const pool = await getPool();
   const conn = await pool.getConnection();
   try {
     await ensureUploadsDir();
@@ -82,6 +87,7 @@ export async function createBanner(req, res) {
 }
 
 export async function updateBanner(req, res) {
+  const pool = await getPool();
   const conn = await pool.getConnection();
   try {
     await ensureUploadsDir();
@@ -101,7 +107,6 @@ export async function updateBanner(req, res) {
 
     if (req.file) {
       const filename = req.file.filename;
-      // Delete old file
       try {
         if (newImagePath?.startsWith("/public/uploads/banners/")) {
           const oldName = path.basename(newImagePath);
@@ -113,7 +118,6 @@ export async function updateBanner(req, res) {
       changed = true;
     }
 
-    // Handle priority change with shifting
     const updates = {};
 
     if (priority !== undefined && priority !== null && priority !== "") {
@@ -123,15 +127,11 @@ export async function updateBanner(req, res) {
       }
 
       if (newPri !== current.priority) {
-        // Temporarily free the unique slot for current row to avoid collisions
-        // with the UNIQUE index during range updates below.
         await setPriorityZero(conn, bannerId);
 
         if (newPri < current.priority) {
-          // Shift up others in [newPri, current-1]
           await shiftUpBetween(conn, newPri, current.priority);
         } else {
-          // Shift down others in [current+1, newPri]
           await shiftDownBetween(conn, newPri, current.priority);
         }
         current.priority = newPri;
@@ -143,13 +143,11 @@ export async function updateBanner(req, res) {
       updates.banner_image = newImagePath;
     }
 
-    // If neither image nor priority changed, bail out
     if (!changed) {
       await conn.rollback();
       return res.status(200).json({ message: "No changes" });
     }
 
-    // Always update priority if changed
     if (Number.isInteger(current.priority)) {
       updates.priority = current.priority;
     }
@@ -169,6 +167,7 @@ export async function updateBanner(req, res) {
 }
 
 export async function deleteBanner(req, res) {
+  const pool = await getPool();
   const conn = await pool.getConnection();
   try {
     await ensureUploadsDir();
@@ -190,12 +189,10 @@ export async function deleteBanner(req, res) {
       return res.status(404).json({ message: "Banner not found" });
     }
 
-    // Shift priorities above deleted one down by 1
     await shiftAfterDelete(conn, pri);
 
     await conn.commit();
 
-    // Best-effort remove file after commit
     try {
       if (imagePath?.startsWith("/public/uploads/banners/")) {
         const name = path.basename(imagePath);
@@ -215,13 +212,17 @@ export async function deleteBanner(req, res) {
 }
 
 export async function suggestNextPriority(_req, res) {
+  const pool = await getPool();
+  const conn = await pool.getConnection();
   try {
     await ensureUploadsDir();
-    const maxp = await getMaxPriority();
+    const maxp = await getMaxPriority(conn);
     const next = (maxp || 0) + 1;
     res.json({ next });
   } catch (err) {
     console.error("suggestNextPriority error:", err);
     res.status(500).json({ message: "Failed to suggest priority", error: err.message });
+  } finally {
+    conn.release();
   }
 }
