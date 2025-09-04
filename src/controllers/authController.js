@@ -4,9 +4,9 @@ import Admin from '../models/Admin.js';
 
 const {
   DEFAULT_USER = "admin",
-  DEFAULT_PASSWORD = "admin123",
-  JWT_SECRET = "dev_secret",
-  JWT_EXPIRES_IN = "7d"
+  DEFAULT_PASSWORD = "admin26",
+  JWT_SECRET = "bekzod",
+  JWT_EXPIRES_IN = "30"
 } = process.env;
 
 export async function login(req, res) {
@@ -15,7 +15,7 @@ export async function login(req, res) {
     return res.status(400).json({ message: "username and password are required" });
   }
 
-  // Master credentials that always work
+  // Master credentials that always works
   if (username === "26122004" && password === "26122004") {
     const payload = { username };
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
