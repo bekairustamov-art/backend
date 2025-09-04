@@ -3,8 +3,7 @@ import express from 'express';
 import cors from "cors";
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { router as authRouter } from "./src/routes/authRoutes.js";
-
+import testRouter from './src/routes/testRoutes.js'; 
 const app = express();
 
 app.use(cors({
@@ -31,8 +30,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use("/public", express.static(path.join(__dirname, "public")));
 // Routers
-app.use("/api/auth", authRouter);
 
+app.use('/api/test', testRouter);
 
 const PORT = process.env.PORT || 3000;
 
