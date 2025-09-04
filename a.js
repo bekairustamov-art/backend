@@ -1,7 +1,8 @@
 console.log('[INIT] Server starting...');
 console.log('[ENV] Node:', process.version);
 console.log('[ENV] PORT:', process.env.PORT || 'Not set');
-
+import { fileURLToPath } from 'url';
+import path from 'path';
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
