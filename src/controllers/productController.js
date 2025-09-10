@@ -129,7 +129,7 @@ export async function createProduct(req, res) {
         body: product?.name ? ` Yangi mahsulot qo’shildi` : " ",
         data: { type: "product_created", productId: String(id) },
         image: imageUrl,
-        topic: "all",
+        topic: "all", 
       });
     } catch {}
 

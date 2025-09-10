@@ -85,8 +85,8 @@ export async function createBanner(req, res) {
           : `${req.protocol}://${req.get('host')}`);
       const fullImage = `${base}${publicPath}`;
       await sendPushToTopic({
-        title: "New banner",
-        body: "Check out our latest promotion",
+        title: "Hilook electronics",
+        body: "Yangiliklardan xabardor bo’ling",
         data: { type: "banner_created", bannerId: String(insertId) },
         image: fullImage,
         topic: "all",
