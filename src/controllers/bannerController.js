@@ -79,7 +79,11 @@ export async function createBanner(req, res) {
 
     // Notify users about new banner
     try {
-      const fullImage = `${req.protocol}://${req.get('host')}${publicPath}`;
+      const base = process.env.PUBLIC_BASE_URL
+        || (req.headers["x-forwarded-proto"]
+          ? `${req.headers["x-forwarded-proto"]}://${req.headers["x-forwarded-host"] || req.get('host')}`
+          : `${req.protocol}://${req.get('host')}`);
+      const fullImage = `${base}${publicPath}`;
       await sendPushToTopic({
         title: "New banner",
         body: "Check out our latest promotion",

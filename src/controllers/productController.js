@@ -119,11 +119,16 @@ export async function createProduct(req, res) {
 
     // Fire-and-forget push notification
     try {
+      const base = process.env. SERVER_URL
+        || (req.headers["x-forwarded-proto"]
+          ? `${req.headers["x-forwarded-proto"]}://${req.headers["x-forwarded-host"] || req.get('host')}`
+          : `${req.protocol}://${req.get('host')}`);
+      const imageUrl = product?.thumb_image_path ? `${base}${product.thumb_image_path}` : undefined;
       await sendPushToTopic({
-        title: "New product",
-        body: product?.name ? `${product.name} is now available` : "A new product has been added",
+        title: product?.name ? `${product.name}` : "Hilook electronics",
+        body: product?.name ? ` Yangi mahsulot qo’shildi` : " ",
         data: { type: "product_created", productId: String(id) },
-        image: product?.thumb_image_path ? `${req.protocol}://${req.get('host')}${product.thumb_image_path}` : undefined,
+        image: imageUrl,
         topic: "all",
       });
     } catch {}
