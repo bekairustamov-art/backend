@@ -13,6 +13,7 @@ import {
   getSearchProducts
 } from "../controllers/userDataController.js";
 import { optionalAuthenticateToken } from "../middleware/userAuth.js";
+import { getRate } from "../controllers/currencyController.js";
 
 export const router = Router();
 
@@ -39,6 +40,9 @@ router.get("/banners", getBanners);
 
 // Get info for users
 router.get("/info", getInfo);
+
+// Get currency rate for users
+router.get("/currency", getRate);
 
 // Get subcategories for users
 router.get("/subcategories", getSubcategories);

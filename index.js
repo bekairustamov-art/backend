@@ -17,6 +17,7 @@ import userAuthRoutes from "./src/routes/userAuthRoutes.js";
 import { permissionRouter } from "./src/routes/permissionRoutes.js";
 import { router as userDataRouter } from "./src/routes/userDataRoutes.js";
 import { router as pushRouter } from "./src/routes/pushRoutes.js";
+import { router as currencyRouter } from "./src/routes/currencyRoutes.js";
 
 const app = express();
 
@@ -68,6 +69,7 @@ app.use(['/api/permission', '/api/permission/'], permissionRouter);
 app.use(['/api/user-auth', '/api/user-auth/'], userAuthRoutes);
 app.use(['/api/user-data', '/api/user-data/'], userDataRouter);
 app.use(['/api/push', '/api/push/'], pushRouter);
+app.use(['/api/currency', '/api/currency/'], currencyRouter);
 
 const PORT = process.env.PORT || 3000;
 

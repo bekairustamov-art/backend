@@ -206,10 +206,10 @@ export async function updateProduct(req, res) {
     if (sub_category_id !== undefined && !sub_category_id) {
       return res.status(400).json({ message: "Sub-category cannot be empty" });
     }
-    if (first_price !== undefined && (!first_price || !first_price.trim())) {
+    if (first_price !== undefined && (!first_price || !String(first_price).trim())) {
       return res.status(400).json({ message: "First price cannot be empty" });
     }
-    if (second_price !== undefined && (!second_price || !second_price.trim())) {
+    if (second_price !== undefined && (!second_price || !String(second_price).trim())) {
       return res.status(400).json({ message: "Second price cannot be empty" });
     }
 

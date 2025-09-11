@@ -1,5 +1,6 @@
 import { getPool } from "../config/db.js";
 import { getInfo as getInfoData } from "../models/infoModel.js";
+import { getCurrency } from "../models/currencyModel.js";
 
 // Helper function to remove timestamp fields from arrays of objects
 const removeTimestamps = (items) => {
@@ -20,16 +21,17 @@ const buildImageUrl = (imagePath, updatedAt) => {
 // User-facing data endpoints (no admin middleware)
 export const getUserData = async (req, res) => {
   try {
-    // Return empty data temporarily as requested
+    const currencyRow = await getCurrency().catch(() => ({ rate: 0 }));
     res.json({
       success: true,
       data: {
         categories: [],
         products: [],
         banners: [],
-        info: {}
+        info: {},
+        currency: { rate: Number(currencyRow.rate) || 0 }
       },
-      message: "User data endpoint created - returning empty data temporarily"
+      message: "User data endpoint"
     });
   } catch (error) {
     console.error("Error in getUserData:", error);
@@ -191,6 +193,7 @@ export const getInfo = async (req, res) => {
   try {
     // Get combined info data (maps, phones, socials, description)
     const infoData = await getInfoData();
+    const currencyRow = await getCurrency().catch(() => ({ rate: 0 }));
 
     // Remove timestamp fields from phones and maps arrays
     const cleanedData = {
@@ -202,7 +205,7 @@ export const getInfo = async (req, res) => {
 
     res.json({
       success: true,
-      data: cleanedData,
+      data: { ...cleanedData, currency: { rate: Number(currencyRow.rate) || 0 } },
       message: "Info data retrieved successfully"
     });
   } catch (error) {
