@@ -130,8 +130,8 @@ export const getProducts = async (req, res) => {
     const formattedProducts = products.map(product => ({
       id: product.id,
       name: product.name,
-      price: parseFloat(product.price),
-      discount_price: parseFloat(product.discount_price),
+      price: product.price == null ? null : Number(product.price),
+      discount_price: product.discount_price == null ? null : Number(product.discount_price),
       thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null
     }));
 
@@ -281,8 +281,8 @@ export const getPopularProducts = async (req, res) => {
     const formattedProducts = products.map(product => ({
       id: product.id,
       name: product.name,
-      price: parseFloat(product.price),
-      discount_price: parseFloat(product.discount_price),
+      price: product.price == null ? null : Number(product.price),
+      discount_price: product.discount_price == null ? null : Number(product.discount_price),
       thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null
     }));
 
@@ -379,8 +379,8 @@ export const getProductDetail = async (req, res) => {
       name: product.name,
       category_name: product.category_name,
       subcategory_name: product.subcategory_name,
-      price: parseFloat(product.price || 0),
-      discount_price: parseFloat(product.discount_price || 0),
+      price: product.price == null ? null : Number(product.price),
+      discount_price: product.discount_price == null ? null : Number(product.discount_price),
       description: product.description,
       detail_image_path: product.detail_image_path ? buildImageUrl(product.detail_image_path, product.updated_at) : null
     };
@@ -500,8 +500,8 @@ export const getProductsByCategory = async (req, res) => {
     const formattedProducts = products.map(product => ({
       id: product.id,
       name: product.name,
-      price: parseFloat(product.price),
-      discount_price: parseFloat(product.discount_price),
+      price: product.price == null ? null : Number(product.price),
+      discount_price: product.discount_price == null ? null : Number(product.discount_price),
       thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null
     }));
 
@@ -599,8 +599,8 @@ export const getProductsBySubcategory = async (req, res) => {
     const formattedProducts = products.map(product => ({
       id: product.id,
       name: product.name,
-      price: parseFloat(product.price),
-      discount_price: parseFloat(product.discount_price),
+      price: product.price == null ? null : Number(product.price),
+      discount_price: product.discount_price == null ? null : Number(product.discount_price),
       thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null
     }));
 
@@ -698,8 +698,8 @@ export const getSearchProducts = async (req, res) => {
     const formatted = rows.map(p => ({
       id: p.id,
       name: p.name,
-      price: parseFloat(p.price),
-      discount_price: parseFloat(p.discount_price),
+      price: p.price == null ? null : Number(p.price),
+      discount_price: p.discount_price == null ? null : Number(p.discount_price),
       thumbImageUrl: p.thumb_image_path ? buildImageUrl(p.thumb_image_path, p.updated_at) : null
     }));
 
