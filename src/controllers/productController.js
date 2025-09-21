@@ -63,7 +63,8 @@ export async function createProduct(req, res) {
       discount1_price,
       second_price,
       discount2_price,
-      ispopular = false
+      ispopular = false,
+      is_available = false
     } = req.body || {};
 
     if (!name || !name.trim()) {
@@ -111,7 +112,8 @@ export async function createProduct(req, res) {
       discount2_price: discount2_price ? String(discount2_price).trim() : null,
       thumb_image_path: thumbImagePath,
       detail_image_path: detailImagePath,
-      ispopular: ispopular
+      ispopular: ispopular,
+      is_available: Boolean(is_available)
     };
 
     const id = await createProd(productData);
@@ -153,7 +155,8 @@ export async function updateProduct(req, res) {
       discount1_price,
       second_price,
       discount2_price,
-      ispopular
+      ispopular,
+      is_available
     } = req.body || {};
 
     const prodId = Number(id);
@@ -255,6 +258,10 @@ export async function updateProduct(req, res) {
 
     if (ispopular !== undefined) {
       fields.ispopular = Boolean(ispopular);
+    }
+
+    if (is_available !== undefined) {
+      fields.is_available = Boolean(is_available);
     }
 
     if (Object.keys(fields).length === 0) {

@@ -28,18 +28,19 @@ export async function createProduct(productData) {
     discount2_price,
     thumb_image_path,
     detail_image_path,
-    ispopular = false
+    ispopular = false,
+    is_available = false
   } = productData;
 
   const [result] = await pool.query(`
     INSERT INTO products (
       name, description, category_id, sub_category_id,
       first_price, discount1_price, second_price, discount2_price,
-      thumb_image_path, detail_image_path, ispopular, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
+      thumb_image_path, detail_image_path, ispopular, is_available, created_at, updated_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
     [name, description, category_id, sub_category_id,
      first_price, discount1_price || null, second_price, discount2_price || null,
-     thumb_image_path, detail_image_path, ispopular]
+     thumb_image_path, detail_image_path, ispopular, is_available]
   );
   return result.insertId;
 }

@@ -98,7 +98,7 @@ export const getProducts = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           second_price as price, discount2_price as discount_price,
-          thumb_image_path, detail_image_path, created_at, updated_at
+          thumb_image_path, detail_image_path, is_available, created_at, updated_at
         FROM products
         ORDER BY created_at DESC
         LIMIT ? OFFSET ?
@@ -110,7 +110,7 @@ export const getProducts = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           first_price as price, discount1_price as discount_price,
-          thumb_image_path, detail_image_path, created_at, updated_at
+          thumb_image_path, detail_image_path, is_available, created_at, updated_at
         FROM products
         ORDER BY created_at DESC
         LIMIT ? OFFSET ?
@@ -132,7 +132,8 @@ export const getProducts = async (req, res) => {
       name: product.name,
       price: product.price == null ? null : Number(product.price),
       discount_price: product.discount_price == null ? null : Number(product.discount_price),
-      thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null
+      thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null,
+      is_available: Boolean(product.is_available)
     }));
 
     res.json({
@@ -249,7 +250,7 @@ export const getPopularProducts = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           second_price as price, discount2_price as discount_price,
-          thumb_image_path, detail_image_path, created_at, updated_at
+          thumb_image_path, detail_image_path, is_available, created_at, updated_at
         FROM products
         WHERE ispopular = true
         ORDER BY updated_at DESC
@@ -261,7 +262,7 @@ export const getPopularProducts = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           first_price as price, discount1_price as discount_price,
-          thumb_image_path, detail_image_path, created_at, updated_at
+          thumb_image_path, detail_image_path, is_available, created_at, updated_at
         FROM products
         WHERE ispopular = true
         ORDER BY updated_at DESC
@@ -283,7 +284,8 @@ export const getPopularProducts = async (req, res) => {
       name: product.name,
       price: product.price == null ? null : Number(product.price),
       discount_price: product.discount_price == null ? null : Number(product.discount_price),
-      thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null
+      thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null,
+      is_available: Boolean(product.is_available)
     }));
 
     res.json({
@@ -336,7 +338,7 @@ export const getProductDetail = async (req, res) => {
         SELECT
           p.id, p.name, p.description,
           p.second_price as price, p.discount2_price as discount_price,
-          p.detail_image_path, p.updated_at,
+          p.detail_image_path, p.is_available, p.updated_at,
           c.category_name,
           sc.name as subcategory_name
         FROM products p
@@ -350,7 +352,7 @@ export const getProductDetail = async (req, res) => {
         SELECT
           p.id, p.name, p.description,
           p.first_price as price, p.discount1_price as discount_price,
-          p.detail_image_path, p.updated_at,
+          p.detail_image_path, p.is_available, p.updated_at,
           c.category_name,
           sc.name as subcategory_name
         FROM products p
@@ -382,7 +384,8 @@ export const getProductDetail = async (req, res) => {
       price: product.price == null ? null : Number(product.price),
       discount_price: product.discount_price == null ? null : Number(product.discount_price),
       description: product.description,
-      detail_image_path: product.detail_image_path ? buildImageUrl(product.detail_image_path, product.updated_at) : null
+      detail_image_path: product.detail_image_path ? buildImageUrl(product.detail_image_path, product.updated_at) : null,
+      is_available: Boolean(product.is_available)
     };
 
     res.json({
@@ -466,7 +469,7 @@ export const getProductsByCategory = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           second_price as price, discount2_price as discount_price,
-          thumb_image_path, detail_image_path, created_at, updated_at
+          thumb_image_path, detail_image_path, is_available, created_at, updated_at
         FROM products
         WHERE category_id = ?
         ORDER BY created_at DESC
@@ -479,7 +482,7 @@ export const getProductsByCategory = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           first_price as price, discount1_price as discount_price,
-          thumb_image_path, detail_image_path, created_at, updated_at
+          thumb_image_path, detail_image_path, is_available, created_at, updated_at
         FROM products
         WHERE category_id = ?
         ORDER BY created_at DESC
@@ -502,7 +505,8 @@ export const getProductsByCategory = async (req, res) => {
       name: product.name,
       price: product.price == null ? null : Number(product.price),
       discount_price: product.discount_price == null ? null : Number(product.discount_price),
-      thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null
+      thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null,
+      is_available: Boolean(product.is_available)
     }));
 
     res.json({
@@ -565,7 +569,7 @@ export const getProductsBySubcategory = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           second_price as price, discount2_price as discount_price,
-          thumb_image_path, detail_image_path, created_at, updated_at
+          thumb_image_path, detail_image_path, is_available, created_at, updated_at
         FROM products
         WHERE sub_category_id = ?
         ORDER BY created_at DESC
@@ -578,7 +582,7 @@ export const getProductsBySubcategory = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           first_price as price, discount1_price as discount_price,
-          thumb_image_path, detail_image_path, created_at, updated_at
+          thumb_image_path, detail_image_path, is_available, created_at, updated_at
         FROM products
         WHERE sub_category_id = ?
         ORDER BY created_at DESC
@@ -601,7 +605,8 @@ export const getProductsBySubcategory = async (req, res) => {
       name: product.name,
       price: product.price == null ? null : Number(product.price),
       discount_price: product.discount_price == null ? null : Number(product.discount_price),
-      thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null
+      thumbImageUrl: product.thumb_image_path ? buildImageUrl(product.thumb_image_path, product.updated_at) : null,
+      is_available: Boolean(product.is_available)
     }));
 
     res.json({
@@ -662,7 +667,7 @@ export const getSearchProducts = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           second_price as price, discount2_price as discount_price,
-          thumb_image_path, updated_at
+          thumb_image_path, is_available, updated_at
         FROM products
         WHERE name LIKE ? OR description LIKE ?
         ORDER BY updated_at DESC
@@ -673,7 +678,7 @@ export const getSearchProducts = async (req, res) => {
         SELECT
           id, name, description, category_id, sub_category_id,
           first_price as price, discount1_price as discount_price,
-          thumb_image_path, updated_at
+          thumb_image_path, is_available, updated_at
         FROM products
         WHERE name LIKE ? OR description LIKE ?
         ORDER BY updated_at DESC
@@ -700,7 +705,8 @@ export const getSearchProducts = async (req, res) => {
       name: p.name,
       price: p.price == null ? null : Number(p.price),
       discount_price: p.discount_price == null ? null : Number(p.discount_price),
-      thumbImageUrl: p.thumb_image_path ? buildImageUrl(p.thumb_image_path, p.updated_at) : null
+      thumbImageUrl: p.thumb_image_path ? buildImageUrl(p.thumb_image_path, p.updated_at) : null,
+      is_available: Boolean(p.is_available)
     }));
 
     res.json({
