@@ -193,9 +193,9 @@ export class OrderModel {
       LEFT JOIN users u ON o.user_id = u.id
       LEFT JOIN products p ON o.product_id = p.id
       WHERE o.batch_id IN (${placeholders})
-      ORDER BY o.batch_id, o.created_at DESC, o.id DESC
+      ORDER BY FIELD(o.batch_id, ${placeholders}), o.created_at DESC, o.id DESC
     `;
-    const [rows] = await pool.execute(pageOrdersQuery, batchIds);
+    const [rows] = await pool.execute(pageOrdersQuery, [...batchIds, ...batchIds]);
 
     return {
       orders: rows,
