@@ -25,7 +25,11 @@ export class OrderModel {
         const { user_id, product_id, quantity, price } = orderData;
 
         // Validate required fields
-        if (!user_id || !product_id || !quantity || !price) {
+        const hasUserId = user_id !== null && user_id !== undefined;
+        const hasProductId = product_id !== null && product_id !== undefined;
+        const hasQuantity = quantity !== null && quantity !== undefined;
+        const hasPrice = price !== null && price !== undefined; // allow 0 price
+        if (!hasUserId || !hasProductId || !hasQuantity || !hasPrice) {
           throw new Error("user_id, product_id, quantity, and price are required for each order");
         }
 
